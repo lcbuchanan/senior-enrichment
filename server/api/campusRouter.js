@@ -1,12 +1,50 @@
 const { Campus } = require('../db/models');
-const db = require('../db')
-const express = require('express')
-const router = express.Router()
+const db = require('../db');
+const express = require('express');
+const router = express.Router();
 
 router.get('/', (req, res, next) => {
-  return Campus.findAll()
-  .then(campuses => res.json(campuses))
-})
+  return Campus.findAll({include: [{model: Student}]})
+  .then(campuses => res.json(campuses));
+});
+
+router.get('/:campusId', (req, res, next) => {
+  return Campus.findById(req.params.campusId, {
+    include: [{model: Student}]
+  })
+  .then(campus => res.json(campus));
+});
+
+router.post('/', (req, res, next) => {
+  return Campus.create({
+    name: req.body.name,
+    imageUrl: req.body.imageUrl,
+    description: req.body.description
+  })
+  .then(campus => res.status(201).json(campus))
+  .catch(next);
+});
+
+router.put('/:campusId', (req, res, next) => {
+  return Campus.update(req.body, {
+    where: { id: req.params.campusId },
+    returning: true,
+    plain: true
+  })
+  .then(([numRows, updatedRows]) => res.json(updatedRows))
+  .catch(next);
+});
+
+router.delete('/:campusId', (req, res, next) => {
+  return Campus.destroy({
+    where: {
+      id: req.params.campusId
+    }
+  })
+  .then(affectedRows => res.status(200).json(affectedRows))
+  .catch(next);
+});
+
 
 
 module.export = router;

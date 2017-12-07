@@ -1,5 +1,5 @@
 {
-  "name": "SpaceSchoolLCB",
+  "name": "spaceschool",
   "version": "0.0.1",
   "description": "A review time project",
   "main": "index.js",
@@ -13,9 +13,11 @@
     "skeleton"
   ],
   "dependencies": {
+    "axios": "^0.17.1",
     "body-parser": "^1.15.2",
     "chalk": "^1.1.3",
     "express": "^4.14.0",
+    "nodemon": "^1.12.5",
     "pg": "^6.1.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
