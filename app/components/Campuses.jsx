@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { fetchCampuses } from '../reducers/campusReducer'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom';
 
 class Campuses extends Component {
 
@@ -14,12 +15,21 @@ class Campuses extends Component {
     console.log(campuses)
     return (
       <div>
-      <div>Campuses!!!</div>
-      {campuses.map(campus => {
-        return (
-        <li key={campus.id}>{campus.name}</li>
-        )
-      })}
+      <h2>Campuses</h2>
+        <div className="campusList">
+        {campuses.map(campus => {
+          return (
+          <div key={campus.id}>
+            <Link to={`campuses/${campus.id}`}>
+              <div>
+                <div>{campus.name}</div>
+                <img src={campus.imageUrl}/>
+              </div>
+            </Link>
+          </div>
+          )
+        })}
+        </div>
       </div>
     )
   }

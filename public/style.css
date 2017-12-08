@@ -1,0 +1,45 @@
+*{
+  font-family: 'Roboto', sans-serif;
+}
+
+img {
+  height: 300px
+}
+
+.navBar{
+  display: flex;
+  justify-content: space-around;
+}
+.campusList{
+  display: flex;
+  justify-content: space-around;
+}
+
+h2{
+  text-align: center;
+}
+
+.campusHeader{
+  display: flex;
+  justify-content: space-around;
+}
+
+.studentElement{
+  display: flex;
+  justify-content: space-between;
+}
+
+.twoButtons{
+  display: flex;
+}
+
+.studentList{
+  list-style-type: none;
+}
+
+li {
+  background: gray;
+}
+li:nth-child(odd) {
+  background: white;
+ }

@@ -72,15 +72,19 @@ apiRouter.get('/students/:studentId', (req, res, next) => {
 });
 
 apiRouter.post('/students', (req, res, next) => {
-  return Student.create({
+  const student = Student.build({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
     gpa: req.body.gpa,
-  })
+  });
+  student.setCampus(req.body.campusId)
+  return student.save()
   .then(student => res.status(201).json(student))
   .catch(next);
 });
+
+
 
 apiRouter.put('/students/:studentId', (req, res, next) => {
   return Student.update(req.body, {
