@@ -1,4 +1,4 @@
-const { Campus } = require('../db/models');
+const { Campus, Student } = require('../db/models');
 const db = require('../db');
 const express = require('express');
 const router = express.Router();
@@ -47,4 +47,4 @@ router.delete('/:campusId', (req, res, next) => {
 
 
 
-module.export = router;
+module.exports = router;

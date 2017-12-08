@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { fetchCampuses, deleteCampusThunk } from '../reducers/campusReducer'
+import { fetchCampuses } from '../reducers/campusReducer'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 
@@ -15,10 +15,7 @@ class Campuses extends Component {
     console.log(campuses)
     return (
       <div>
-      <h2>Campuses</h2>
-      <Link to={`/addCampus`}>
-        <button>Add A New Campus</button>
-      </Link>
+      <h2>Welcome</h2>
         <div className="campusList">
         {campuses.map(campus => {
           return (
@@ -26,15 +23,9 @@ class Campuses extends Component {
             <Link to={`campuses/${campus.id}`}>
               <div>
                 <div>{campus.name}</div>
-                <img src={campus.imageUrl} />
+                <img src={campus.imageUrl}/>
               </div>
             </Link>
-            <div>
-              <button>Update Campus Info</button>
-              <button onClick={() => this.props.removeCampus(campus.id)}>
-                Delete Campus
-              </button>
-            </div>
           </div>
           )
         })}
@@ -55,9 +46,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     loadCampuses: () => {
        dispatch(fetchCampuses());
-    },
-    removeCampus: (campusId) => {
-      dispatch(deleteCampusThunk(campusId))
     }
   }
 }

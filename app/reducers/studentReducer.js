@@ -10,6 +10,7 @@ const initialState = [];
 const GET_STUDENTS = 'GET_STUDENTS';
 const REMOVE_STUDENT_FROM_STATE = 'REMOVE_STUDENT_FROM_STATE';
 const ADD_NEW_STUDENT_TO_STATE = 'ADD_NEW_STUDENT_TO_STATE';
+const UPDATE_STUDENT_ON_STATE = 'UPDATE_STUDENT_ON_STATE';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
@@ -22,7 +23,7 @@ const getStudents = (students) => {
 }
 
 const removeStudentFromState = (studentId) => {
-  return{
+  return {
     type: REMOVE_STUDENT_FROM_STATE,
     studentId
   }
@@ -31,6 +32,13 @@ const removeStudentFromState = (studentId) => {
 const addNewStudentToState = (student) => {
   return{
     type: ADD_NEW_STUDENT_TO_STATE,
+    student
+  }
+}
+
+const updateStudentOnState = (student) => {
+  return{
+    type: UPDATE_STUDENT_ON_STATE,
     student
   }
 }
@@ -48,6 +56,13 @@ export default function reducer(state = initialState, action) {
       });
     case ADD_NEW_STUDENT_TO_STATE:
       return [...state, action.student];
+    case UPDATE_STUDENT_ON_STATE:
+      //filter out the old student
+      const filteredStudents = [...state].filter(student => {
+        return student.id !== +action.student.id
+      });
+      //add the updated one
+      return [...filteredStudents, action.student]
     default: return state;
   }
 }
@@ -69,8 +84,18 @@ export const deleteStudentFromDb = (studentId) => dispatch => {
   .catch(err => console.error(err))
 }
 
-export const postNewStudent = (name, campus) => dispatch => {
-  axios.post(`/api/students/`)
+export const postNewStudent = (firstName, lastName, campusId) => dispatch => {
+  axios.post(`/api/students/`, {
+    firstName,
+    lastName,
+    campusId
+  })
   .then(student => dispatch(addNewStudentToState(student)))
+  .catch(err => console.error(err));
+}
+
+export const updateStudentThunk = student => dispatch => {
+  axios.put(`/api/students/${student.id}`, student)
+  .then(updatedStudent => dispatch(updateStudentOnState(updatedStudent)))
   .catch(err => console.error(err));
 }

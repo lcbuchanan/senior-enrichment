@@ -2,6 +2,15 @@
   font-family: 'Roboto', sans-serif;
 }
 
+.mainHeading{
+  background-color: #acc1e2;
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
+  width: 100vw;
+
+}
+
+
 img {
   height: 300px
 }
@@ -13,6 +22,7 @@ img {
 .campusList{
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 h2{
@@ -38,8 +48,8 @@ h2{
 }
 
 li {
-  background: gray;
+  background: #dbdbdb;
 }
-li:nth-child(odd) {
+li:nth-child(even) {
   background: white;
  }

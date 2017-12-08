@@ -29,19 +29,22 @@ class Students extends Component {
       <ul className="studentList">
       {students.map(student => {
         return (
-
         <li key={student.id} className="studentElement">
-        <div>{student.name}</div>
-        <div>GPA: {student.gpa}</div>
-          <div className="twoButtons">
-            <button>edit</button>
-            <button onClick={() => this.props.removeStudent(student.id)}>remove</button>
-          </div>
+          <div>{student.name}</div>
+          <div>GPA: {student.gpa}</div>
+            <div className="twoButtons">
+              <Link to={`/students/editStudent/${student.id}`}>
+              <button>edit</button>
+              </Link>
+              <button onClick={() => this.props.removeStudent(student.id)}>
+                remove
+              </button>
+            </div>
         </li>
         )
       })}
       </ul>
-      <Link to={`/students/addStudent`}>
+      <Link to={`/addStudent`}>
         <button className="addStudent">Enroll New Student</button>
       </Link>
       </div>
