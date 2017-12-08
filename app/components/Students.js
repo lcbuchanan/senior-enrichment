@@ -4,17 +4,14 @@ import { connect } from 'react-redux'
 
 class Students extends Component {
 
-  constructor(props){
-    super(props)
-  }
 
   componentDidMount () {
     this.props.loadStudents();
- }
+  }
 
   render() {
     const students = this.props.students;
-    return(
+    return (
       <div>
       <div>Students!</div>
       {students.map(student => {
@@ -35,7 +32,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    loadStudents (evt) {
+    loadStudents: () => {
        dispatch(fetchStudents());
     }
   }

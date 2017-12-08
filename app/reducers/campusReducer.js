@@ -35,8 +35,9 @@ export default function reducer(state = initialState, action) {
 /* ------------       DISPATCHERS     ------------------ */
 
 
-export const fetchStudents = () => dispatch => {
-  axios.get('/api/campses')
+export const fetchCampuses = () => dispatch => {
+  axios.get('/api/campuses')
   .then(res => res.data)
   .then(campuses => dispatch(getCampuses(campuses)))
+  .catch(err => console.error(err));
 }
