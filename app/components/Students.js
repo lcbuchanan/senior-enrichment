@@ -33,8 +33,11 @@ class Students extends Component {
           <div>{student.name}</div>
           <div>GPA: {student.gpa}</div>
             <div className="twoButtons">
-              <Link to={`/students/editStudent/${student.id}`}>
+              <Link to={`/students/${student.id}/edit`}>
               <button>edit</button>
+              </Link>
+              <Link to={`/students/${student.id}`}>
+              <button>view details</button>
               </Link>
               <button onClick={() => this.props.removeStudent(student.id)}>
                 remove

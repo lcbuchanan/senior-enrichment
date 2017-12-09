@@ -23,6 +23,8 @@ class SingleCampus extends Component {
         <img src={campus.imageUrl}/>
         <p>{campus.description}</p>
         </div>
+    
+
       <Students campusId={campus.id}/>
       </div>
     )

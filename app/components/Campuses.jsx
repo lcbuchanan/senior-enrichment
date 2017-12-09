@@ -3,6 +3,7 @@ import { fetchCampuses, deleteCampusThunk } from '../reducers/campusReducer'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 
+
 class Campuses extends Component {
 
 
@@ -22,7 +23,7 @@ class Campuses extends Component {
         <div className="campusList">
         {campuses.map(campus => {
           return (
-          <div key={campus.id}>
+          <div key={campus.id} >
             <Link to={`campuses/${campus.id}`}>
               <div>
                 <div>{campus.name}</div>
@@ -30,7 +31,9 @@ class Campuses extends Component {
               </div>
             </Link>
             <div>
-              <button>Update Campus Info</button>
+              <Link to={`/campuses/editCampus/${campus.id}`}>
+                <button>Update Campus Info</button>
+              </Link>
               <button onClick={() => this.props.removeCampus(campus.id)}>
                 Delete Campus
               </button>

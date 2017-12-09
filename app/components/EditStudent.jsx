@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { fetchCampuses } from '../reducers/campusReducer';
 import { updateStudentThunk } from '../reducers/studentReducer';
+import { Redirect } from 'react-router-dom';
 
 class EditStudent extends Component{
 
@@ -12,7 +13,8 @@ class EditStudent extends Component{
       lastName: '',
       campusId: 0,
       email: '',
-      gpa: 0
+      gpa: 0,
+      fireRedirect: false
     }
     this.inputFirstName = this.inputFirstName.bind(this);
     this.inputLastName = this.inputLastName.bind(this);
@@ -79,8 +81,11 @@ class EditStudent extends Component{
       lastName: '',
       campusId: 0,
       email: '',
-      gpa: 0
+      gpa: 0,
+      fireRedirect: true
     });
+    console.log("location", this.props.location);
+    //browserHistory.push(`/testing`);
   }
 
   render(){
@@ -89,7 +94,7 @@ class EditStudent extends Component{
 
     return(
       <div>
-      <h3>Edit Student #{studentId}</h3>
+      <h3>Edit Student ID #{studentId}</h3>
       <form onSubmit={this.handleSubmit}>
       <div className="form-group">
         <label htmlFor="name">Update Info: </label>
@@ -146,6 +151,9 @@ class EditStudent extends Component{
         <button type="submit" className="btn btn-default">Update</button>
       </div>
     </form>
+    {this.state.fireRedirect && (
+         <Redirect to={`/students/${+this.props.match.params.studentId}`} />
+       )}
     </div>
     )
   }

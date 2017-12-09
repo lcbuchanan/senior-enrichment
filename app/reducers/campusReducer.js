@@ -10,6 +10,7 @@ const initialState = [];
 const GET_CAMPUSES = 'GET_CAMPUSES';
 const REMOVE_CAMPUS_FROM_STATE = 'REMOVE_CAMPUS_FROM_STATE';
 const ADD_NEW_CAMPUS_TO_STATE = 'ADD_NEW_CAMPUS_TO_STATE';
+const UPDATE_CAMPUS_ON_STATE = 'UPDATE_CAMPUS_ON_STATE';
 
 
 /* ------------   ACTION CREATORS     ------------------ */
@@ -36,6 +37,13 @@ const addNewCampusToState = (campus) => {
   }
 }
 
+const updateCampusOnState = campus => {
+  return {
+    type: UPDATE_CAMPUS_ON_STATE,
+    campus
+  }
+}
+
 
 /* ------------       REDUCER     ------------------ */
 
@@ -49,6 +57,11 @@ export default function reducer(state = initialState, action) {
       });
     case ADD_NEW_CAMPUS_TO_STATE:
       return [...state, action.campus];
+    case UPDATE_CAMPUS_ON_STATE:
+      const filteredCampuses = [...state].filter(campus => {
+        return campus.id !== +action.campus.id
+      });
+      return [...filteredCampuses, action.campus]
     default: return state;
   }
 }
@@ -79,4 +92,10 @@ export const postNewCampus = (name, imageUrl, description) => dispatch => {
   })
   .then(campus => dispatch(addNewCampusToState(campus)))
   .catch(err => console.error(err))
+}
+
+export const updateCampusThunk = campus => dispatch => {
+  axios.put(`/api/campuses/${campus.id}`, campus)
+  .then(updatedCampus => dispatch(updateCampusOnState(updatedCampus)))
+  .catch(err => console.error(err));
 }

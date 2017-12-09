@@ -16,6 +16,7 @@ const UPDATE_STUDENT_ON_STATE = 'UPDATE_STUDENT_ON_STATE';
 
 
 const getStudents = (students) => {
+  console.log("getStudents ran!")
   return {
     type: GET_STUDENTS,
     students

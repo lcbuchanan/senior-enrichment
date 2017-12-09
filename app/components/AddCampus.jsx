@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { postNewCampus } from '../reducers/campusReducer';
 
 
-export default class AddCampus extends Component{
+class AddCampus extends Component{
   constructor(props){
     super(props);
     this.state = {
@@ -14,6 +14,7 @@ export default class AddCampus extends Component{
     this.inputName = this.inputName.bind(this);
     this.inputUrl = this.inputUrl.bind(this);
     this.inputDescription = this.inputDescription.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   inputName(evt){
@@ -41,7 +42,7 @@ export default class AddCampus extends Component{
 
   render(){
 
-    return(
+    return (
 
       <div>
       <h3>Add A New Campus</h3>
@@ -84,9 +85,14 @@ export default class AddCampus extends Component{
 }
 
 const mapDispatchToProps = dispatch => {
-  return{
+  return {
     submitCampus: (name, imageUrl, description) => {
       dispatch(postNewCampus(name, imageUrl, description))
     }
   }
 }
+
+
+const AddCampusContainer = connect(null, mapDispatchToProps)(AddCampus)
+
+export default AddCampusContainer;
