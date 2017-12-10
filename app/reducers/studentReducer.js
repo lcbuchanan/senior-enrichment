@@ -31,14 +31,14 @@ const removeStudentFromState = (studentId) => {
 }
 
 const addNewStudentToState = (student) => {
-  return{
+  return {
     type: ADD_NEW_STUDENT_TO_STATE,
     student
   }
 }
 
 const updateStudentOnState = (student) => {
-  return{
+  return {
     type: UPDATE_STUDENT_ON_STATE,
     student
   }

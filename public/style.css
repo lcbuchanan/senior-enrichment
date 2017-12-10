@@ -52,3 +52,18 @@ li {
 li:nth-child(even) {
   background: white;
  }
+.editWrapper{
+  display: flex;
+  justify-content: space-around;
+}
+.form-group{
+  display: flex;
+  flex-direction: column;
+}
+.columnWrapper{
+  display: flex;
+  flex-direction: column;
+}
+h3{
+  text-align: center;
+}

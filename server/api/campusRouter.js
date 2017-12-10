@@ -16,12 +16,14 @@ router.get('/:campusId', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  return Campus.create({
+  const campus = Campus.build({
     name: req.body.name,
     imageUrl: req.body.imageUrl,
     description: req.body.description
-  })
-  .then(campus => res.status(201).json(campus))
+  });
+  campus.setStudent(req.body.studentId);
+  return campus.save()
+  .then(updatedCampus => res.status(201).json(updatedCampus))
   .catch(next);
 });
 

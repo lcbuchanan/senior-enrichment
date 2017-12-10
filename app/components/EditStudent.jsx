@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { fetchCampuses } from '../reducers/campusReducer';
 import { updateStudentThunk } from '../reducers/studentReducer';
 import { Redirect } from 'react-router-dom';
+import { fetchSelectedStudent } from '../reducers/selectedStudentReducer';
 
 class EditStudent extends Component{
 
@@ -29,6 +30,7 @@ class EditStudent extends Component{
     if (!this.props.campuses.length){
       this.props.loadCampuses();
     }
+    this.props.loadSelectedStudent(+this.props.match.params.studentId);
   }
 
   inputFirstName(evt){
@@ -85,16 +87,23 @@ class EditStudent extends Component{
       fireRedirect: true
     });
     console.log("location", this.props.location);
-    //browserHistory.push(`/testing`);
   }
 
   render(){
-    const studentId = this.props.match.params.studentId;
+    const student = this.props.selectedStudent;
     const campuses = this.props.campuses;
 
-    return(
-      <div>
-      <h3>Edit Student ID #{studentId}</h3>
+    return (
+      <div className="columnWrapper">
+      <h3>Edit Student ID #{student.id}</h3>
+      <div className="editWrapper">
+        <div>
+          <h4>Current Info:</h4>
+          <div>Name: {student.name}</div>
+          <div> gpa: {student.gpa}</div>
+          <div> email: {student.email}</div>
+          <div> campus # {student.campusId}</div>
+        </div>
       <form onSubmit={this.handleSubmit}>
       <div className="form-group">
         <label htmlFor="name">Update Info: </label>
@@ -155,6 +164,7 @@ class EditStudent extends Component{
          <Redirect to={`/students/${+this.props.match.params.studentId}`} />
        )}
     </div>
+    </div>
     )
   }
 
@@ -162,7 +172,8 @@ class EditStudent extends Component{
 
 const mapStateToProps = state => {
   return {
-    campuses: state.campuses
+    campuses: state.campuses,
+    selectedStudent: state.selectedStudent
   }
 }
 
@@ -173,6 +184,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateStudent: (student) => {
       dispatch(updateStudentThunk(student))
+    },
+    loadSelectedStudent: (studentId) => {
+      dispatch(fetchSelectedStudent(studentId))
     }
   }
 }

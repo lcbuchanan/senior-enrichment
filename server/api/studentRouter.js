@@ -24,9 +24,9 @@ router.post('/', (req, res, next) => {
     email: req.body.email,
     gpa: req.body.gpa,
   });
-  student.setCampus(req.body.campusId)
+  student.setCampus(req.body.campusId);
   return student.save()
-  .then(student => res.status(201).json(student))
+  .then(updatedStudent => res.status(201).json(updatedStudent))
   .catch(next);
 });
 

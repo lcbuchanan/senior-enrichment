@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { updateCampusThunk } from '../reducers/campusReducer';
+import { fetchStudents } from '../reducers/studentReducer';
+import { fetchSelectedCampus } from '../reducers/selectedCampusReducer'
+import { Redirect } from 'react-router-dom';
 
 class EditCampus extends Component{
 
@@ -9,12 +12,23 @@ class EditCampus extends Component{
     this.state = {
       name: '',
       imageUrl: '',
-      description: ''
+      description: '',
+      studentId: 0,
+      selectedCampus: {},
+      fireRedirect: false
     }
     this.inputName = this.inputName.bind(this);
     this.inputUrl = this.inputUrl.bind(this);
     this.inputDescription = this.inputDescription.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.inputStudent = this.inputStudent.bind(this);
+  }
+
+  componentDidMount(){
+    if (!this.props.students.length){
+      this.props.loadStudents();
+    }
+    this.props.loadSelectedCampus(+this.props.match.params.campusId)
   }
 
   inputName(evt){
@@ -35,6 +49,12 @@ class EditCampus extends Component{
     })
   }
 
+  inputStudent(evt){
+    this.setState({
+      studentId: +evt.target.value
+    })
+  }
+
   handleSubmit(evt){
     evt.preventDefault();
     const updatedCampus = {};
@@ -49,17 +69,28 @@ class EditCampus extends Component{
     this.setState({
       name: '',
       imageUrl: '',
-      description: ''
+      description: '',
+      studentId: 0,
+      fireRedirect: true
     })
   }
 
 
   render() {
-    const campusId = this.props.match.params.campusId;
+    const campus = this.props.selectedCampus;
+    const students = this.props.students;
 
     return (
+      <div className="columnWrapper">
+      <h3>Edit Campus #{campus.id}</h3>
+      <div className="editWrapper">
       <div>
-      <h3>Edit Campus #{campusId}</h3>
+        <h4>Current Info:</h4>
+        <div>Name: {campus.name}</div>
+        <div>image:</div>
+        <img src={campus.imageUrl} />
+        <div>Description: {campus.description}</div>
+      </div>
       <form  onSubmit={this.handleSubmit} >
       <div className="form-group">
         <label htmlFor="name">Update Info: </label>
@@ -88,10 +119,29 @@ class EditCampus extends Component{
           onChange={this.inputDescription}
           />
         </div>
+        <div>Add A Student:</div>
+        <select
+        className="form-control"
+        name="campus"
+        onChange={this.inputCampus}
+        >
+        {
+          students && students.map(student => {
+            return (
+              <option key={student.id} value={student.id}>{student.name}</option>
+            )
+          })
+        }
+        </select>
       <div className="form-group">
         <button type="submit" className="btn btn-default">Update</button>
       </div>
     </form>
+    {this.state.fireRedirect && (
+      <Redirect to={`/campuses/${campus.id}`} />
+    )
+  }
+    </div>
     </div>
     )
   }
@@ -102,10 +152,23 @@ const mapDispatchToProps = dispatch => {
   return {
     updateCampus: campus => {
       dispatch(updateCampusThunk(campus))
+    },
+    loadStudents: () => {
+      dispatch(fetchStudents());
+    },
+    loadSelectedCampus: (campusId) => {
+      dispatch(fetchSelectedCampus(campusId))
     }
   }
 }
 
-const EditCampusContainer = connect(null, mapDispatchToProps)(EditCampus)
+const mapStateToProps = state => {
+  return {
+    students: state.students,
+    selectedCampus: state.selectedCampus
+  }
+}
+
+const EditCampusContainer = connect(mapStateToProps, mapDispatchToProps)(EditCampus)
 
 export default EditCampusContainer;
