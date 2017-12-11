@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { updateCampusThunk } from '../reducers/campusReducer';
 import { fetchStudents, unenrollFromCampus, enrollThunk } from '../reducers/studentReducer';
 import { fetchSelectedCampus } from '../reducers/selectedCampusReducer'
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 class EditCampus extends Component{
 
@@ -99,8 +99,8 @@ class EditCampus extends Component{
 
   addStudent(evt){
     evt.preventDefault();
-    console.log("add student ran!");
-    this.props.enrollStudent(this.state.studentToAdd)
+    console.log("campus id from addStudent: ", +this.props.match.params.campusId);
+    this.props.enrollStudent(this.state.studentToAdd, +this.props.match.params.campusId)
   }
 
   removeStudent(evt){
@@ -196,11 +196,15 @@ class EditCampus extends Component{
           <button type="submit" className="btn btn-default">Update</button>
         </div>
       </form>
+
     {this.state.fireRedirect && (
       <Redirect to={`/campuses/`} />
     )
   }
     </div>
+    <Link to={`/campuses/${campus.id}`}>
+      <button>View Campus Info</button>
+    </Link>
     </div>
     )
   }
@@ -221,8 +225,8 @@ const mapDispatchToProps = dispatch => {
     unenrollStudent: (studentId) => {
       dispatch(unenrollFromCampus(studentId))
     },
-    enrollStudent: (studentId) => {
-      dispatch(enrollThunk(studentId))
+    enrollStudent: (studentId, campusId) => {
+      dispatch(enrollThunk(studentId, campusId))
     }
   }
 }

@@ -40,7 +40,7 @@ router.put('/:studentId', (req, res, next) => {
     returning: true,
     plain: true
   })
-  .then(([numRows, updatedRows]) => res.json(updatedRows[0]))
+  .then(([numRows, updatedRows]) => res.json(updatedRows))
   .catch(next);
 });
 

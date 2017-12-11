@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { postNewCampus } from '../reducers/campusReducer';
+import { Redirect } from 'react-router-dom';
 
 
 class AddCampus extends Component{
@@ -9,7 +10,8 @@ class AddCampus extends Component{
     this.state = {
       name: '',
       imageUrl: '',
-      description: ''
+      description: '',
+      fireRedirect: false
     }
     this.inputName = this.inputName.bind(this);
     this.inputUrl = this.inputUrl.bind(this);
@@ -38,6 +40,9 @@ class AddCampus extends Component{
   handleSubmit(evt){
     evt.preventDefault();
     this.props.submitCampus(this.state.name, this.state.imageUrl, this.state.description);
+    this.setState({
+      fireRedirect: true
+    })
   }
 
   render(){
@@ -79,6 +84,9 @@ class AddCampus extends Component{
         <button type="submit" className="btn btn-default">Create Campus</button>
       </div>
     </form>
+    {this.state.fireRedirect && (
+      <Redirect to={`/campuses`} />
+    )}
     </div>
     )
   }

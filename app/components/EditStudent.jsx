@@ -56,14 +56,12 @@ class EditStudent extends Component{
     this.setState({
       gpa: +evt.target.value
     })
-    console.log("gpa: ", this.state.gpa)
   }
 
   inputCampus(evt){
     this.setState({
       campusId: +evt.target.value
     })
-    console.log(this.state.campusId);
   }
 
   handleSubmit(evt){
@@ -86,7 +84,6 @@ class EditStudent extends Component{
       gpa: 0,
       fireRedirect: true
     });
-    console.log("location", this.props.location);
   }
 
   render(){

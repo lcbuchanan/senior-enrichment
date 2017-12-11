@@ -117,7 +117,7 @@ export const unenrollFromCampus = studentId => dispatch => {
 }
 
 export const enrollThunk = (studentId, campusId) => dispatch => {
-  console.log('enroll students ran!');
+  console.log('campus id from enroll students', campusId);
   axios.put(`/api/students/${studentId}`, {campusId: campusId})
   .then(() => dispatch(fetchStudents()))
   .catch(err => console.error(err))
