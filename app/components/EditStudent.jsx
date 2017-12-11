@@ -26,7 +26,6 @@ class EditStudent extends Component{
   }
 
   componentDidMount () {
-    console.log("campus id?", this.props.match.params.studentId)
     if (!this.props.campuses.length){
       this.props.loadCampuses();
     }
@@ -37,7 +36,6 @@ class EditStudent extends Component{
     this.setState({
       firstName: evt.target.value
     })
-    console.log("firstName: ", this.state.firstName)
   }
 
   inputLastName(evt){
@@ -74,7 +72,6 @@ class EditStudent extends Component{
       }
     })
     updatedStudent.id = +this.props.match.params.studentId;
-    console.log('updatedStudent: ', updatedStudent);
     this.props.updateStudent(updatedStudent);
     this.setState({
       firstName: '',
@@ -101,71 +98,70 @@ class EditStudent extends Component{
           <div> email: {student.email}</div>
           <div> campus # {student.campusId}</div>
         </div>
-      <form onSubmit={this.handleSubmit}>
-      <div className="form-group">
-        <label htmlFor="name">Update Info: </label>
-        <input
-        value={this.state.firstNameInput}
-        className="form-control"
-        type="text"
-        name="firstName"
-        placeholder="updated first name"
-        onChange={this.inputFirstName}
-        />
-        <input
-        value={this.state.lastNameInput}
-        className="form-control"
-        type="text"
-        name="lastName"
-        placeholder="updated last name"
-        onChange={this.inputLastName}
-        />
-        <input
-        value={this.emailInput}
-        className="form-control"
-        type="text"
-        name="email"
-        placeholder="updated email"
-        onChange={this.inputEmail}
-        />
-        <input
-        value={this.gpaInput}
-        className="form-control"
-        type="text"
-        name="gpa"
-        placeholder="updated GPA"
-        onChange={this.inputGpa}
-        />
-      </div>
-      <div className="form-group">
-        <div>Change Campus To: </div>
-        <select
-        className="form-control"
-        name="campus"
-        onChange={this.inputCampus}
-        >
-        <option>-</option>
-        {
-          campuses && campuses.map(campus => {
-            return (
-              <option key={campus.id} value={campus.id}>{campus.name}</option>
-            )
-          })
-        }
-        </select>
+        <form onSubmit={this.handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="name">Update Info: </label>
+          <input
+          value={this.state.firstNameInput}
+          className="form-control"
+          type="text"
+          name="firstName"
+          placeholder="updated first name"
+          onChange={this.inputFirstName}
+          />
+          <input
+          value={this.state.lastNameInput}
+          className="form-control"
+          type="text"
+          name="lastName"
+          placeholder="updated last name"
+          onChange={this.inputLastName}
+          />
+          <input
+          value={this.emailInput}
+          className="form-control"
+          type="text"
+          name="email"
+          placeholder="updated email"
+          onChange={this.inputEmail}
+          />
+          <input
+          value={this.gpaInput}
+          className="form-control"
+          type="text"
+          name="gpa"
+          placeholder="updated GPA"
+          onChange={this.inputGpa}
+          />
         </div>
-      <div className="form-group">
-        <button type="submit" className="btn btn-default">Update</button>
-      </div>
-    </form>
-    {this.state.fireRedirect && (
-         <Redirect to={`/students/`} />
-       )}
-    </div>
+        <div className="form-group">
+          <div>Change Campus To: </div>
+          <select
+          className="form-control"
+          name="campus"
+          onChange={this.inputCampus}
+          >
+          <option>-</option>
+          {
+            campuses && campuses.map(campus => {
+              return (
+                <option key={campus.id} value={campus.id}>{campus.name}</option>
+              )
+            })
+          }
+          </select>
+        </div>
+        <div className="form-group">
+          <button type="submit" className="btn btn-default">Update</button>
+        </div>
+      </form>
+      {this.state.fireRedirect && (
+           <Redirect to={`/students/`} />
+         )}
+       </div>
     </div>
     )
   }
-
 }
 
 const mapStateToProps = state => {

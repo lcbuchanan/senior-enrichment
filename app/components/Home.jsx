@@ -12,10 +12,9 @@ class Campuses extends Component {
 
   render() {
     const campuses = this.props.campuses;
-    console.log(campuses)
     return (
       <div>
-      <h2>Welcome</h2>
+        <h2>Welcome</h2>
         <div className="campusList">
         {campuses.map(campus => {
           return (

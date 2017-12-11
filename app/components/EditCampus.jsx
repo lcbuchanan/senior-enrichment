@@ -83,7 +83,6 @@ class EditCampus extends Component{
       }
     })
     updatedCampus.id = +this.props.match.params.campusId;
-    console.log("this is the updated campus: ", updatedCampus);
     this.props.updateCampus(updatedCampus);
     this.props.loadSelectedCampus(+this.props.match.params.campusId)
     this.setState({
@@ -99,7 +98,6 @@ class EditCampus extends Component{
 
   addStudent(evt){
     evt.preventDefault();
-    console.log("campus id from addStudent: ", +this.props.match.params.campusId);
     this.props.enrollStudent(this.state.studentToAdd, +this.props.match.params.campusId)
   }
 
@@ -126,6 +124,7 @@ class EditCampus extends Component{
         <img src={campus.imageUrl} />
         <div>Description: {campus.description}</div>
       </div>
+      <div className="formBundle">
       <form  onSubmit={this.handleSubmit} >
       <div className="form-group">
         <label htmlFor="name">Update Info: </label>
@@ -179,7 +178,8 @@ class EditCampus extends Component{
       </div>
     </form>
     <form onSubmit={this.removeStudent} >
-      <div>Remove a Student From This Campus:</div>
+      <div>Remove a Student</div>
+      <div>From This Campus:</div>
       <select
         onChange={this.setStudentToRemove}
         >
@@ -193,18 +193,21 @@ class EditCampus extends Component{
         }
         </select>
         <div className="form-group">
-          <button type="submit" className="btn btn-default">Update</button>
+          <button type="submit" className="btn btn-default">Remove Student</button>
         </div>
       </form>
+      </div>
 
     {this.state.fireRedirect && (
       <Redirect to={`/campuses/`} />
     )
   }
     </div>
-    <Link to={`/campuses/${campus.id}`}>
-      <button>View Campus Info</button>
-    </Link>
+    <div>
+      <Link to={`/campuses/${campus.id}`}>
+        <button className="centerButton">View Campus Info</button>
+      </Link>
+    </div>
     </div>
     )
   }

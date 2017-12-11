@@ -16,32 +16,27 @@ class SingleCampus extends Component {
 
 
   componentDidMount () {
-    console.log("campus id?", this.props.match.params.campusId)
     this.props.loadSelectedCampus(this.props.match.params.campusId);
   }
 
   render(){
-    console.log("selected campus: ", this.props.selectedCampus)
     const campus = this.props.selectedCampus;
 
     return(
       <div>
         <h2>{campus.name}</h2>
         <div className="campusHeader">
-        <img src={campus.imageUrl}/>
-        <p>{campus.description}</p>
+          <img src={campus.imageUrl}/>
+          <p>{campus.description}</p>
         </div>
         <Link to={`/campuses/editCampus/${campus.id}`}>
-        <button>Edit Campus Info</button>
+          <button>Edit Campus Info</button>
         </Link>
-
-      <Students campusId={campus.id}/>
+        <Students campusId={campus.id}/>
       </div>
     )
   }
-
 }
-
 
 
 const mapStateToProps = state => {

@@ -13,10 +13,9 @@ class Campuses extends Component {
 
   render() {
     const campuses = this.props.campuses;
-    console.log(campuses)
     return (
       <div>
-      <h2>Campuses</h2>
+      <h2>Campuse List</h2>
       <Link to={`/addCampus`}>
         <button>Add A New Campus</button>
       </Link>

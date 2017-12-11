@@ -34,7 +34,6 @@ router.post('/', (req, res, next) => {
 
 
 router.put('/:studentId', (req, res, next) => {
-  console.log("req.body from put route", req.body);
   return Student.update(req.body, {
     where: { id: req.params.studentId },
     returning: true,

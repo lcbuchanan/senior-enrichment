@@ -67,3 +67,20 @@ li:nth-child(even) {
 h3{
   text-align: center;
 }
+
+.formBundle{
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.formBundle form{
+  padding-top: 2rem;
+}
+
+.enrollForm{
+  width: 25vw;
+}
+
+.centerButton{
+  height: 2rem;
+}
