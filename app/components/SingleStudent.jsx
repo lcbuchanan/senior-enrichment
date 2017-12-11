@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { fetchSelectedStudent, setSelectedStudent } from '../reducers/selectedStudentReducer';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import EditStudent from './EditStudent';
+import { deleteStudentFromDb } from '../reducers/studentReducer';
 
 class SingleStudent extends Component {
 
   constructor(props){
     super(props);
     this.state = {
-      editing: false
+      editing: false,
+      fireRedirect: false
     }
   }
 
@@ -32,6 +34,11 @@ class SingleStudent extends Component {
 
   }
 
+  deleteAndReroute(studentId){
+    this.props.deleteStudent(studentId);
+    this.setState({ fireRedirect: true});
+  }
+
   render(){
     console.log("whole student ", this.props.selectedStudent)
     const student = this.props.selectedStudent;
@@ -42,14 +49,24 @@ class SingleStudent extends Component {
           <Link to={`/students/${student.id}/edit`}>
           <button>edit student details</button>
           </Link>
-        
+          <button onClick={() => this.deleteAndReroute(student.id)}>delete student record</button>
+
         <div className="studentHeader">
         <p>GPA: {student && student.gpa}</p>
         <p>email: {student && student.email}</p>
-        <p>campus: {campus && campus.name}</p>
+        {campus &&
+          <Link to={`/campuses/${campus.id}`}>
+            <p>campus: {campus.name}</p>
+        </Link>
+        }
         </div>
         {
           this.state.editing && <EditStudent />
+        }
+        {
+          this.state.fireRedirect && (
+            <Redirect to={`/students`} />
+          )
         }
       </div>
     )
@@ -70,6 +87,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     saveSelectedStudent: (student) => {
        dispatch(setSelectedStudent(student));
+    },
+    deleteStudent: (studentId) => {
+      dispatch(deleteStudentFromDb(studentId))
     }
   }
 }

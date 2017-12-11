@@ -16,24 +16,32 @@ router.get('/:campusId', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  const campus = Campus.build({
-    name: req.body.name,
-    imageUrl: req.body.imageUrl,
-    description: req.body.description
-  });
-  campus.setStudent(req.body.studentId);
-  return campus.save()
+  return Campus.create(req.body)
   .then(updatedCampus => res.status(201).json(updatedCampus))
   .catch(next);
 });
 
 router.put('/:campusId', (req, res, next) => {
+  // const campus = Campus.build({
+  //   name: req.body.name,
+  //   imageUrl: req.body.imageUrl,
+  //   description: req.body.description
+  // });
+  // if (req.body.studen)
+  // campus.setStudent(req.body.studentId);
+  // return campus.save()
+  // .then(updatedCampus => res.status(201).json(updatedCampus))
+  // .catch(next);
   return Campus.update(req.body, {
     where: { id: req.params.campusId },
     returning: true,
     plain: true
   })
-  .then(([numRows, updatedRows]) => res.json(updatedRows))
+  .then(([numRows, updatedRows]) => {
+    console.log("RESPONSE FROM UPDATE: ", updatedRows);
+    // updatedRows[0].setStudent(req.body.studentId);
+    res.json(updatedRows[0]);
+  })
   .catch(next);
 });
 

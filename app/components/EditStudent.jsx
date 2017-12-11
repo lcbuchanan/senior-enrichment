@@ -147,6 +147,7 @@ class EditStudent extends Component{
         name="campus"
         onChange={this.inputCampus}
         >
+        <option>-</option>
         {
           campuses && campuses.map(campus => {
             return (
@@ -161,7 +162,7 @@ class EditStudent extends Component{
       </div>
     </form>
     {this.state.fireRedirect && (
-         <Redirect to={`/students/${+this.props.match.params.studentId}`} />
+         <Redirect to={`/students/`} />
        )}
     </div>
     </div>

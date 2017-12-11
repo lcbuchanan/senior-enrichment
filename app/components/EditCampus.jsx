@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { updateCampusThunk } from '../reducers/campusReducer';
-import { fetchStudents } from '../reducers/studentReducer';
+import { fetchStudents, unenrollFromCampus, enrollThunk } from '../reducers/studentReducer';
 import { fetchSelectedCampus } from '../reducers/selectedCampusReducer'
 import { Redirect } from 'react-router-dom';
 
@@ -15,6 +15,8 @@ class EditCampus extends Component{
       description: '',
       studentId: 0,
       selectedCampus: {},
+      studentToRemove: 0,
+      studentToAdd: 0,
       fireRedirect: false
     }
     this.inputName = this.inputName.bind(this);
@@ -22,6 +24,10 @@ class EditCampus extends Component{
     this.inputDescription = this.inputDescription.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.inputStudent = this.inputStudent.bind(this);
+    this.setStudentToRemove = this.setStudentToRemove.bind(this);
+    this.removeStudent = this.removeStudent.bind(this);
+    this.addStudent = this.addStudent.bind(this);
+    this.setStudentToAdd = this.setStudentToAdd.bind(this);
   }
 
   componentDidMount(){
@@ -55,6 +61,18 @@ class EditCampus extends Component{
     })
   }
 
+  setStudentToRemove(evt){
+    this.setState({
+      studentToRemove: evt.target.value
+    })
+  }
+
+  setStudentToAdd(evt){
+    this.setState({
+      studentToAdd: evt.target.value
+    })
+  }
+
   handleSubmit(evt){
     evt.preventDefault();
     const updatedCampus = {};
@@ -65,20 +83,37 @@ class EditCampus extends Component{
       }
     })
     updatedCampus.id = +this.props.match.params.campusId;
+    console.log("this is the updated campus: ", updatedCampus);
     this.props.updateCampus(updatedCampus);
+    this.props.loadSelectedCampus(+this.props.match.params.campusId)
     this.setState({
       name: '',
       imageUrl: '',
       description: '',
       studentId: 0,
+      studentToRemove: 0,
+      studentToAdd: 0,
       fireRedirect: true
     })
+  }
+
+  addStudent(evt){
+    evt.preventDefault();
+    console.log("add student ran!");
+    this.props.enrollStudent(this.state.studentToAdd)
+  }
+
+  removeStudent(evt){
+    evt.preventDefault();
+    this.props.unenrollStudent(this.state.studentToRemove, this.props.selectedCampusId);
   }
 
 
   render() {
     const campus = this.props.selectedCampus;
     const students = this.props.students;
+    const nonEnrolledStudents = students.filter(student => student.campusId !== campus.id)
+    const filteredStudents = students.filter(student => student.campusId === campus.id)
 
     return (
       <div className="columnWrapper">
@@ -119,14 +154,20 @@ class EditCampus extends Component{
           onChange={this.inputDescription}
           />
         </div>
+        <div className="form-group">
+          <button type="submit" className="btn btn-default">Update Info</button>
+        </div>
+        </form>
+      <form onSubmit={this.addStudent}>
         <div>Add A Student:</div>
         <select
         className="form-control"
         name="campus"
-        onChange={this.inputCampus}
+        onChange={this.setStudentToAdd}
         >
+        <option>-</option>
         {
-          students && students.map(student => {
+          students && nonEnrolledStudents.map(student => {
             return (
               <option key={student.id} value={student.id}>{student.name}</option>
             )
@@ -134,11 +175,29 @@ class EditCampus extends Component{
         }
         </select>
       <div className="form-group">
-        <button type="submit" className="btn btn-default">Update</button>
+        <button type="submit" className="btn btn-default">Add Student</button>
       </div>
     </form>
+    <form onSubmit={this.removeStudent} >
+      <div>Remove a Student From This Campus:</div>
+      <select
+        onChange={this.setStudentToRemove}
+        >
+        <option>-</option>
+        {
+          filteredStudents.map(student => {
+            return (
+              <option key={student.id} value={student.id}>{student.name}</option>
+            )
+          })
+        }
+        </select>
+        <div className="form-group">
+          <button type="submit" className="btn btn-default">Update</button>
+        </div>
+      </form>
     {this.state.fireRedirect && (
-      <Redirect to={`/campuses/${campus.id}`} />
+      <Redirect to={`/campuses/`} />
     )
   }
     </div>
@@ -158,6 +217,12 @@ const mapDispatchToProps = dispatch => {
     },
     loadSelectedCampus: (campusId) => {
       dispatch(fetchSelectedCampus(campusId))
+    },
+    unenrollStudent: (studentId) => {
+      dispatch(unenrollFromCampus(studentId))
+    },
+    enrollStudent: (studentId) => {
+      dispatch(enrollThunk(studentId))
     }
   }
 }

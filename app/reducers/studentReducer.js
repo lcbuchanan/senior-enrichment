@@ -11,6 +11,7 @@ const GET_STUDENTS = 'GET_STUDENTS';
 const REMOVE_STUDENT_FROM_STATE = 'REMOVE_STUDENT_FROM_STATE';
 const ADD_NEW_STUDENT_TO_STATE = 'ADD_NEW_STUDENT_TO_STATE';
 const UPDATE_STUDENT_ON_STATE = 'UPDATE_STUDENT_ON_STATE';
+const UNENROLL_STUDENT = 'UNENROLL_STUDENT';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
@@ -40,6 +41,13 @@ const addNewStudentToState = (student) => {
 const updateStudentOnState = (student) => {
   return {
     type: UPDATE_STUDENT_ON_STATE,
+    student
+  }
+}
+
+const unenrollStudentOnState = student => {
+  return {
+    type: UNENROLL_STUDENT,
     student
   }
 }
@@ -99,4 +107,18 @@ export const updateStudentThunk = student => dispatch => {
   axios.put(`/api/students/${student.id}`, student)
   .then(updatedStudent => dispatch(updateStudentOnState(updatedStudent)))
   .catch(err => console.error(err));
+}
+
+
+export const unenrollFromCampus = studentId => dispatch => {
+  axios.put(`/api/students/${studentId}`, {campusId: null})
+  .then(() => dispatch(fetchStudents()))
+  .catch(err => console.error(err));
+}
+
+export const enrollThunk = (studentId, campusId) => dispatch => {
+  console.log('enroll students ran!');
+  axios.put(`/api/students/${studentId}`, {campusId: campusId})
+  .then(() => dispatch(fetchStudents()))
+  .catch(err => console.error(err))
 }

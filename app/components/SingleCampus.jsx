@@ -7,6 +7,14 @@ import Students from './Students';
 
 class SingleCampus extends Component {
 
+  constructor(props){
+    super(props);
+    this.state = {
+      editing: false
+    }
+  }
+
+
   componentDidMount () {
     console.log("campus id?", this.props.match.params.campusId)
     this.props.loadSelectedCampus(this.props.match.params.campusId);
@@ -23,7 +31,9 @@ class SingleCampus extends Component {
         <img src={campus.imageUrl}/>
         <p>{campus.description}</p>
         </div>
-    
+        <Link to={`/campuses/editCampus/${campus.id}`}>
+        <button>Edit Campus Info</button>
+        </Link>
 
       <Students campusId={campus.id}/>
       </div>

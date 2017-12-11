@@ -18,6 +18,7 @@ router.get('/:studentId', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
+  console.log("REQ BODY IN NEW STUDENT: ", req.body)
   const student = Student.build({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
@@ -39,7 +40,7 @@ router.put('/:studentId', (req, res, next) => {
     returning: true,
     plain: true
   })
-  .then(([numRows, updatedRows]) => res.json(updatedRows))
+  .then(([numRows, updatedRows]) => res.json(updatedRows[0]))
   .catch(next);
 });
 

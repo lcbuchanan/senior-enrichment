@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { fetchCampuses } from '../reducers/campusReducer';
 import { postNewStudent } from '../reducers/studentReducer';
+import { Redirect } from 'react-router-dom';
 
 class AddStudent extends Component {
 
@@ -10,7 +11,8 @@ class AddStudent extends Component {
     this.state = {
       firstNameInput: '',
       lastNameInput: '',
-      campusId: 0
+      campusId: 0,
+      fireRedirect: false
     }
     this.inputFirstName = this.inputFirstName.bind(this);
     this.inputLastName = this.inputLastName.bind(this);
@@ -46,7 +48,10 @@ class AddStudent extends Component {
 
   handleSubmit(evt){
     evt.preventDefault();
-    this.props.submitStudent(this.state.firstNameInput, this.state.lastNameInput, this.state.campusId)
+    this.props.submitStudent(this.state.firstNameInput, this.state.lastNameInput, this.state.campusId);
+    this.setState({
+      fireRedirect: true
+    })
   }
 
 
@@ -59,7 +64,7 @@ class AddStudent extends Component {
       <h3>Enroll A New Student</h3>
       <form onSubmit={this.handleSubmit} >
       <div className="form-group">
-        <label htmlFor="name">Student Name: </label>
+        <label >Student Name: </label>
         <input
         value={this.state.firstNameInput}
         className="form-control"
@@ -96,6 +101,9 @@ class AddStudent extends Component {
         <button type="submit" className="btn btn-default">Enroll Now</button>
       </div>
     </form>
+    {this.state.fireRedirect && (
+      <Redirect to={`/students`} />
+    )}
     </div>
     )
   }
